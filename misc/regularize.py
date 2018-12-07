@@ -17,7 +17,7 @@ def get_perimeter(x, y):
     return numpy.sum(numpy.sqrt((x[1:] - x[:-1])**2 + (y[1:] - y[:-1])**2))
 
 
-def regularize(xo, yo, N=None, ds=None, atol=1.0E-06):
+def regularize2d(xo, yo, N=None, ds=None, atol=1.0E-06):
     """
     Regularize the geometry.
 

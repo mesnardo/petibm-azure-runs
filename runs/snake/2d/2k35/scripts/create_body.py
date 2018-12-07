@@ -22,7 +22,7 @@ with open(filepath, 'r') as infile:
 
 # Apply rotation and regularize the geometry to desired resolution.
 x, y = misc.rotate2d(x, y, center=(0.0, 0.0), angle=-35.0)
-x, y = misc.regularize(x, y, ds=0.004)
+x, y = misc.regularize2d(x, y, ds=0.004)
 
 # Write new coordinates in file located in simulation directory.
 simu_dir = pathlib.Path(__file__).absolute().parents[1]

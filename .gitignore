@@ -3,3 +3,6 @@ l_mpi_2017.2.174.tgz
 id_rsa_shipyard
 id_rsa_shipyard.pub
 credentials.yaml
+
+runs/snake/2d/2k35/data
+figures

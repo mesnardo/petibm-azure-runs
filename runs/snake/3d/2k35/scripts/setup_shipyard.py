@@ -51,9 +51,9 @@ info['<storage-share-name>'] = args.share_name
 root_dir = pathlib.Path(__file__).absolute().parents[5]
 simu_dir = pathlib.Path(__file__).absolute().parents[1]
 
-inpath = root_dir / 'misc' / 'run-petibm-template.sh'
+inpath = root_dir / 'misc' / 'copy-on-error-template.sh'
 outpath = simu_dir / 'run-petibm.sh'
-misc.replace_strings_in_file(inpath, info, output=outpath)
+misc.replace_strings_in_file(inpath, info, filemode='a', output=outpath)
 os.chmod(outpath, 0o777)
 
 inpath = root_dir / 'misc' / 'credentials-template.yaml'

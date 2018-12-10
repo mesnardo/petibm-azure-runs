@@ -22,8 +22,6 @@ echo "Submitting job..."
 shipyard jobs add > $logdir/jobs-add.log 2>&1
 echo "Polling job until task is complete..."
 shipyard jobs tasks list --poll-until-tasks-complete > $logdir/jobs-monitor.log 2>&1
-echo "Deleting job..."
-shipyard jobs del --yes > $logdir/jobs-del.log 2>&1
 echo "Deleting pool..."
 shipyard pool del --yes > $logdir/pool-del.log 2>&1
 

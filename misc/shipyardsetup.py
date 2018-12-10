@@ -57,7 +57,7 @@ def get_batch_account_endpoint(resource_group):
     return ast.literal_eval(output)
 
 
-def replace_strings_in_file(filepath, info, output=None):
+def replace_strings_in_file(filepath, info, filemode='w', output=None):
     with open(filepath, 'r') as infile:
         lines = infile.readlines()
     for i, line in enumerate(lines):
@@ -65,11 +65,12 @@ def replace_strings_in_file(filepath, info, output=None):
             if key in line:
                 lines[i] = line.replace(key, value)
     filepath = filepath if output is None else output
-    with open(filepath, 'w') as outfile:
+    with open(filepath, filemode) as outfile:
         outfile.writelines(lines)
 
 
-def replace_strings_in_files(filepaths, info, outputs=None):
+def replace_strings_in_files(filepaths, info, filemode='r', outputs=None):
     for i, filepath in enumerate(filepaths):
         output = None if outputs is None else outputs[i]
-        replace_strings_in_file(filepath, info, output=output)
+        replace_strings_in_file(filepath, info,
+                                filemode=filemode, output=output)

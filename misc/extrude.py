@@ -38,7 +38,6 @@ def extrude2d(x, y, limits=[-0.5, 0.5], n=None, ds=None, force=False):
     z: numpy.ndarray
         z-coordinates of the geometry.
     """
-    print('\nExtrude the geometry in the z-direction...')
     if not (ds or n):
         raise ValueError('both ds and n are set to None')
     elif abs(limits[0] - limits[1]) < 1.0E-06:

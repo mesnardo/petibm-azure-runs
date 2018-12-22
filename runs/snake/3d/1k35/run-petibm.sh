@@ -32,6 +32,7 @@ echo "LD_LIBRARY_PATH: $LD_LIBRARY_PATH"
 cp $AZ_BATCH_TASK_DIR/stdout.txt $simudir
 cp $AZ_BATCH_TASK_DIR/stderr.txt $simudir
 
+cd $simudir
 mpirun -np $np -ppn $ppn -host $AZ_BATCH_HOST_LIST \
   -genv CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES \
   petibm-decoupledibpm \

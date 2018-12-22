@@ -1,0 +1,217 @@
+mesh:
+- direction: x
+  start: -15.0
+  subDomains:
+  - cells: 296
+    end: -0.52
+    stretchRatio: 0.9900990099009901
+  - cells: 500
+    end: 3.48
+    stretchRatio: 1.0
+  - cells: 275
+    end: 15.0
+    stretchRatio: 1.01
+- direction: y
+  start: -15.0
+  subDomains:
+  - cells: 286
+    end: -2.0
+    stretchRatio: 0.9900990099009901
+  - cells: 500
+    end: 2.0
+    stretchRatio: 1.0
+  - cells: 286
+    end: 15.0
+    stretchRatio: 1.01
+- direction: z
+  start: 0.0
+  subDomains:
+  - cells: 40
+    end: 3.2
+    stretchRatio: 1.0
+
+flow:
+  nu: 0.0005
+  initialVelocity: [1.0, 0.0, 0.0]
+  boundaryConditions:
+  - location: xMinus
+    u: [DIRICHLET, 1.0]
+    v: [DIRICHLET, 0.0]
+    w: [DIRICHLET, 0.0]
+  - location: xPlus
+    u: [CONVECTIVE, 1.0]
+    v: [CONVECTIVE, 1.0]
+    w: [CONVECTIVE, 1.0]
+  - location: yMinus
+    u: [DIRICHLET, 1.0]
+    v: [DIRICHLET, 0.0]
+    w: [DIRICHLET, 0.0]
+  - location: yPlus
+    u: [DIRICHLET, 1.0]
+    v: [DIRICHLET, 0.0]
+    w: [DIRICHLET, 0.0]
+  - location: zMinus
+    u: [PERIODIC, 0.0]
+    v: [PERIODIC, 0.0]
+    w: [PERIODIC, 0.0]
+  - location: zPlus
+    u: [PERIODIC, 0.0]
+    v: [PERIODIC, 0.0]
+    w: [PERIODIC, 0.0]
+
+parameters:
+  dt: 0.001
+  startStep: 100000
+  nt: 100000
+  nsave: 5000
+  nrestart: 25000
+  convection: ADAMS_BASHFORTH_2
+  diffusion: CRANK_NICOLSON
+  velocitySolver:
+    type: CPU
+    config: config/velocity_solver.info
+  poissonSolver:
+    type: GPU
+    config: config/poisson_solver.info
+  forcesSolver:
+    type: CPU
+    config: config/forces_solver.info
+
+bodies:
+- type: points
+  name: snake
+  file: snake3d35.body
+
+probes:
+- name: probe-u-p1
+  type: POINT
+  field: u
+  path: solution/probe-u-p1.dat
+  n_monitor: 1
+  t_start: 150.0
+  t_end: 200.0
+  loc: [0.3, 0.0, 1.6]
+- name: probe-u-p2
+  type: POINT
+  field: u
+  path: solution/probe-u-p2.dat
+  n_monitor: 1
+  t_start: 150.0
+  t_end: 200.0
+  loc: [1.0, 0.0, 1.6]
+- name: probe-u-p3
+  type: POINT
+  field: u
+  path: solution/probe-u-p3.dat
+  n_monitor: 1
+  t_start: 150.0
+  t_end: 200.0
+  loc: [3.0, 0.0, 1.6]
+- name: probe-u-p4
+  type: POINT
+  field: u
+  path: solution/probe-u-p4.dat
+  n_monitor: 1
+  t_start: 150.0
+  t_end: 200.0
+  loc: [5.0, 0.0, 1.6]
+- name: probe-v-p1
+  type: POINT
+  field: v
+  path: solution/probe-v-p1.dat
+  n_monitor: 1
+  t_start: 150.0
+  t_end: 200.0
+  loc: [0.3, 0.0, 1.6]
+- name: probe-v-p2
+  type: POINT
+  field: v
+  path: solution/probe-v-p2.dat
+  n_monitor: 1
+  t_start: 150.0
+  t_end: 200.0
+  loc: [1.0, 0.0, 1.6]
+- name: probe-v-p3
+  type: POINT
+  field: v
+  path: solution/probe-v-p3.dat
+  n_monitor: 1
+  t_start: 150.0
+  t_end: 200.0
+  loc: [3.0, 0.0, 1.6]
+- name: probe-v-p4
+  type: POINT
+  field: v
+  path: solution/probe-v-p4.dat
+  n_monitor: 1
+  t_start: 150.0
+  t_end: 200.0
+  loc: [5.0, 0.0, 1.6]
+- name: probe-w-p1
+  type: POINT
+  field: w
+  path: solution/probe-w-p1.dat
+  n_monitor: 1
+  t_start: 150.0
+  t_end: 200.0
+  loc: [0.3, 0.0, 1.6]
+- name: probe-w-p2
+  type: POINT
+  field: w
+  path: solution/probe-w-p2.dat
+  n_monitor: 1
+  t_start: 150.0
+  t_end: 200.0
+  loc: [1.0, 0.0, 1.6]
+- name: probe-w-p3
+  type: POINT
+  field: w
+  path: solution/probe-w-p3.dat
+  n_monitor: 1
+  t_start: 150.0
+  t_end: 200.0
+  loc: [3.0, 0.0, 1.6]
+- name: probe-w-p4
+  type: POINT
+  field: w
+  path: solution/probe-w-p4.dat
+  n_monitor: 1
+  t_start: 150.0
+  t_end: 200.0
+  loc: [5.0, 0.0, 1.6]
+- name: probe-u-v1
+  type: VOLUME
+  field: u
+  path: solution/probe-u-v1.h5
+  viewer: hdf5
+  n_monitor: 1000
+  t_start: 150.0
+  t_end: 200.0
+  box:
+    x: [-0.56, 1.0]
+    y: [-0.5, 0.3]
+    z: [0.0, 3.2]
+- name: probe-v-v1
+  type: VOLUME
+  field: v
+  path: solution/probe-v-v1.h5
+  viewer: hdf5
+  n_monitor: 1000
+  t_start: 150.0
+  t_end: 200.0
+  box:
+    x: [-0.56, 1.0]
+    y: [-0.5, 0.3]
+    z: [0.0, 3.2]
+- name: probe-w-v1
+  type: VOLUME
+  field: w
+  path: solution/probe-w-v1.h5
+  viewer: hdf5
+  n_monitor: 1000
+  t_start: 150.0
+  t_end: 200.0
+  box:
+    x: [-0.56, 1.0]
+    y: [-0.5, 0.3]
+    z: [0.0, 3.2]

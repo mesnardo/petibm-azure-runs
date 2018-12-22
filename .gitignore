@@ -1,4 +1,5 @@
 __pycache__
+*.pyc
 l_mpi_2017.2.174.tgz
 id_rsa_shipyard
 id_rsa_shipyard.pub

@@ -2,7 +2,6 @@
 Functions to read forces from file and convert them to force coefficients.
 """
 
-
 import numpy
 
 
@@ -10,8 +9,8 @@ def petibm_read_forces(filepath):
     """
     Read PetIBM forces from given file.
 
-    Arguments
-    ---------
+    Parameters
+    ----------
     filepath: str or pathlib.Path object
         Path of the file to read.
 
@@ -25,12 +24,12 @@ def petibm_read_forces(filepath):
     return data
 
 
-def get_force_coefficients(*forces, **kwargs):
+def get_force_coefficients(*forces, coeff=1.0):
     """
     Convert forces to force coefficients.
 
-    Arguments
-    ---------
+    Parameters
+    ----------
     forces: tuple of numpy.ndarray objects
         The forces.
     coeff: float (optional)
@@ -42,6 +41,29 @@ def get_force_coefficients(*forces, **kwargs):
     force_coeffs: tuple of numpy.ndarray objects
         The force coefficients.
     """
-    coeff = kwargs['coeff']
     force_coeffs = (coeff * f for f in forces)
     return force_coeffs
+
+
+def get_time_averaged_values(t, *forces, limits=(-numpy.infty, numpy.infty)):
+    """
+    Compute the time-averaged values.
+
+    Parameters
+    ----------
+    t: numpy.ndarray object
+        The time values.
+    forces: tuple of numpy.ndarray objects
+        The forces (or force coefficients).
+    limits: tuple of 2 floats (optional)
+        Time limits used to compute the mean;
+        default: (-inf, +inf).
+
+    Returns
+    -------
+    means: tuple of floats
+        The time-averaged values.
+    """
+    mask = (t >= limits[0]) & (t <= limits[1])
+    means = (numpy.mean(f[mask]) for f in forces)
+    return means

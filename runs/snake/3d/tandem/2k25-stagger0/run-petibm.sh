@@ -41,3 +41,14 @@ mpirun -np $np -ppn $ppn -host $AZ_BATCH_HOST_LIST \
   -malloc_log \
   -memory_view \
   -options_left >> $simudir/stdout.txt 2> $simudir/stderr.txt
+
+
+rc=$?
+if [ $rc != 0 ]; then
+	mountpoint="$AZ_BATCH_NODE_ROOT_DIR/mounts"
+	accountname="mesnardo2storage"
+	fileshare="myfileshare"
+	rm -rf core.*
+	cp -r $simudir $mountpoint/azfile-$accountname-$fileshare
+fi
+exit $rc

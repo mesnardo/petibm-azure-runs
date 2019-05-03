@@ -1,18 +1,10 @@
-"""
-Generate the YAML node "mesh" with details of the Cartesian grid.
-"""
+"""Generate the YAML node 'mesh' with details of the Cartesian grid."""
 
-import sys
-import pathlib
 import numpy
-from matplotlib import pyplot
+import pathlib
 
+import petibmpy
 
-root_dir = pathlib.Path(__file__).absolute().parents[5]
-
-if root_dir not in sys.path:
-    sys.path.insert(0, str(root_dir))
-import misc
 
 # Info about the 2D structured Cartesian grid.
 width = 0.004  # minimum grid spacing in the x- and y- directions
@@ -44,10 +36,10 @@ info = [{'direction': 'x', 'start': -15.0,
                          'stretchRatio': ratio,
                          'precision': 2}]}]
 
-mesh = misc.CartesianStructuredMesh()
+mesh = petibmpy.CartesianStructuredMesh()
 mesh.create(info)
 mesh.print_parameters()
 
-simu_dir = pathlib.Path(__file__).absolute().parents[1]
-filepath = simu_dir / 'mesh.yaml'
+simudir = pathlib.Path(__file__).absolute().parents[1]
+filepath = simudir / 'mesh.yaml'
 mesh.write_yaml_file(filepath)

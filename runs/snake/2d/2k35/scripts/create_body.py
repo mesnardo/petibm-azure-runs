@@ -1,33 +1,27 @@
-"""
-Generate the coordinates of the snake boundary.
+"""Create the boundary of the snake cross-section.
+
+The boundary coordinates are saved to file.
 """
 
-import sys
-import pathlib
-import numpy
 from matplotlib import pyplot
+import numpy
+import pathlib
 
+import petibmpy
 
-root_dir = pathlib.Path(__file__).absolute().parents[5]
-
-if root_dir not in sys.path:
-    sys.path.insert(0, str(root_dir))
-import misc
 
 # Read the original coordinates of the section.
-data_dir = root_dir / 'runs' / 'snake' / 'data'
-filepath = data_dir / 'snake2d.body'
+rootdir = pathlib.Path(__file__).absolute().parents[5]
+datadir = rootdir / 'runs' / 'snake' / 'data'
+filepath = datadir / 'snake2d.body'
 with open(filepath, 'r') as infile:
-    x, y = numpy.loadtxt(infile, dtype=numpy.float64, skiprows=1, unpack=True)
+    x, y = numpy.loadtxt(infile, skiprows=1, unpack=True)
 
 # Apply rotation and regularize the geometry to desired resolution.
-x, y = misc.rotate2d(x, y, center=(0.0, 0.0), angle=-35.0)
-x, y = misc.regularize2d(x, y, ds=0.004)
+x, y = petibmpy.rotate2d(x, y, center=(0.0, 0.0), angle=-35.0)
+x, y = petibmpy.regularize2d(x, y, ds=0.004)
 
 # Write new coordinates in file located in simulation directory.
 simu_dir = pathlib.Path(__file__).absolute().parents[1]
 filepath = simu_dir / 'snake2d35.body'
-with open(filepath, 'w') as outfile:
-    outfile.write(f'{x.size}\n')
-with open(filepath, 'ab') as outfile:
-    numpy.savetxt(outfile, numpy.c_[x, y])
+petibmpy.write_body(filepath)

@@ -1,39 +1,42 @@
-"""
-Generate a figure of the force coefficients over time.
+"""Plot the history of the force coefficients.
+
 Compare the 3D force coefficients with the 2D ones.
-Save the figure in the sub-folder `figures` of the simulation directory.
+
+The Matplotlib figure is saved in the sub-folder `figures`
+of the direction simulation directory.
 """
 
-import sys
-import pathlib
 from matplotlib import pyplot
+import pathlib
 
-root_dir = pathlib.Path(__file__).absolute().parents[5]
-if root_dir not in sys.path:
-    sys.path.insert(0, str(root_dir))
-import misc
+import petibmpy
 
 
-simu_dir = pathlib.Path(__file__).absolute().parents[1]
+simudir = pathlib.Path(__file__).absolute().parents[1]
 
-# Read 3D forces and convert to force coefficients.
-filepath = simu_dir / 'output' / 'forces-0.txt'
-t, fx, fy, fz = misc.petibm_read_forces(filepath)
+# Load the history of the forces from file.
+filepath = simudir / 'output' / 'forces-0.txt'
+t, fx, fy, fz = petibmpy.read_forces(filepath)
+
+# Compute the history of the force coefficients.
 rho, u_inf = 1.0, 1.0  # density and freestream speed
 dyn_pressure = 0.5 * rho * u_inf**2  # dynamic pressure
 c = 1.0  # chord length
 Lz = 3.2 * c  # spanwise length
 coeff = 1 / (dyn_pressure * c * Lz)  # scaling factor for force coefficients
-cd, cl, cz = misc.get_force_coefficients(fx, fy, fz, coeff=coeff)
+cd, cl, cz = petibmpy.get_force_coefficients(fx, fy, fz, coeff=coeff)
 
-# Read 2D forces and convert to force coefficients.
-simu2d_dir = root_dir / 'runs' / 'snake' / '2d' / '2k35'
-filepath = simu2d_dir / 'output' / 'forces-0.txt'
-t2, fx2, fy2 = misc.petibm_read_forces(filepath)
+# Load the history of the forces from the 2D simulation.
+rootdir = pathlib.Path(__file__).absolute().parents[5]
+simu2ddir = rootdir / 'runs' / 'snake' / '2d' / '2k35'
+filepath = simu2ddir / 'output' / 'forces-0.txt'
+t2, fx2, fy2 = petibmpy.read_forces(filepath)
+
+# Convert to force coefficients.
 coeff = 1 / (dyn_pressure * c)
-cd2, cl2 = misc.get_force_coefficients(fx2, fy2, coeff=coeff)
+cd2, cl2 = petibmpy.get_force_coefficients(fx2, fy2, coeff=coeff)
 
-# Plot force coefficients over time.
+# Plot the history of the force coefficients over time.
 pyplot.rc('font', family='serif', size=16)
 fig, ax = pyplot.subplots(figsize=(8.0, 4.0))
 ax.set_xlabel('Non-dimensional time')
@@ -49,7 +52,7 @@ ax.set_ylim(0.55, 3.5)
 fig.tight_layout()
 
 # Save figure as PNG file.
-fig_dir = simu_dir / 'figures'
-fig_dir.mkdir(parents=True, exist_ok=True)
-filepath = fig_dir / 'forceCoefficientsCompare2D.png'
+figdir = simudir / 'figures'
+figdir.mkdir(parents=True, exist_ok=True)
+filepath = figdir / 'forceCoefficientsCompare2D.png'
 fig.savefig(str(filepath), dpi=300)

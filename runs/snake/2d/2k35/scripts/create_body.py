@@ -24,4 +24,4 @@ x, y = petibmpy.regularize2d(x, y, ds=0.004)
 # Write new coordinates in file located in simulation directory.
 simu_dir = pathlib.Path(__file__).absolute().parents[1]
 filepath = simu_dir / 'snake2d35.body'
-petibmpy.write_body(filepath)
+petibmpy.write_body(filepath, x, y)

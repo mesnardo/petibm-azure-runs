@@ -43,4 +43,4 @@ for timestep in timesteps:
 # Write XDMF file to visualize field with VisIt.
 filepath = outdir / (name + '.xmf')
 petibmpy.write_xdmf(filepath, outdir, gridpath, name,
-                    dt, nstart=nstart, nt=nt, nsave=nsave)
+                    nstart=nstart, nt=nt, nsave=nsave)

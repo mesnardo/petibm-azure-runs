@@ -14,8 +14,7 @@ import petibmpy
 rootdir = pathlib.Path(__file__).absolute().parents[6]
 datadir = rootdir / 'runs' / 'snake' / 'data'
 filepath = datadir / 'snake2d.body'
-with open(filepath, 'r') as infile:
-    x, y = numpy.loadtxt(infile, skiprows=1, unpack=True)
+x, y = petibmpy.read_body(filepath, skiprows=1)
 
 # Rotate the section.
 x, y = petibmpy.rotate2d(x, y, center=(0.0, 0.0), angle=-25.0)
@@ -30,19 +29,6 @@ chord = 1.0  # cross-section chord length
 gap, stagger = 3 * chord, 0.0
 xd += gap
 yd += stagger
-
-show_figure = False
-if show_figure:
-    pyplot.rc('font', family='serif', size=16)
-    fig, ax = pyplot.subplots(figsize=(6.0, 6.0))
-    ax.set_xlabel('x')
-    ax.set_ylabel('y')
-    ax.grid()
-    ax.plot(x, y, label='Upstream', marker='x')
-    ax.plot(xd, yd, label='Downstream', marker='x')
-    ax.legend()
-    ax.axis('scaled', adjust='box')
-    pyplot.show()
 
 # Extrude the sections along the z direction.
 x, y, z = petibmpy.extrude2d(x, y, ds=0.08, limits=(0.0, 3.2))

@@ -13,7 +13,7 @@ import petibmpy
 
 # Load the history of the forces.
 maindir = pathlib.Path(__file__).absolute().parents[2]
-simudir = maindir / '2k25-stagger0'
+simudir = maindir / '2k25g3s0'
 filepath1 = simudir / 'output' / 'forces-0.txt'
 simudir = pathlib.Path(__file__).absolute().parents[1]
 filepath2 = simudir / 'output' / 'forces-50000.txt'

@@ -29,7 +29,6 @@ filepath = simudir / 'config.yaml'
 with open(filepath, 'r') as infile:
     config = yaml.load(infile, Loader=yaml.FullLoader)['parameters']
 nstart, nt, nsave = config['startStep'], config['nt'], config['nsave']
-dt = config['dt']
 timesteps = list(range(nstart, nstart + nt + 1, nsave))
 
 # Average the scalar field along the z-direction and write field.
@@ -44,4 +43,4 @@ for timestep in timesteps:
 # Write XDMF file to visualize field with VisIt.
 filepath = outdir / (name + '-avg.xmf')
 petibmpy.write_xdmf(filepath, outdir, gridpath, name + '-avg',
-                    dt, nstart=nstart, nt=nt, nsave=nsave)
+                    nstart=nstart, nt=nt, nsave=nsave)
